@@ -111,7 +111,7 @@ async function fetchUserWeatherInfo(coordinates){
 
     // API call 
     try{
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
         const data = await response.json();
 
         loadingScreen.classList.remove("active");
@@ -141,7 +141,7 @@ function renderWeatherInfo(weatherInfo){
     countryIcon.src = `https://flagcdn.com/144x108/${weatherInfo?.sys?.country.toLowerCase()}.png`;
     desc.innerText = weatherInfo?.weather?.[0]?.description;
     weatherIcon.src = `https://openweathermap.org/img/w/${weatherInfo?.weather?.[0]?.icon}.png`;
-    temp.innerText = `${weatherInfo?.main?.temp} K`;
+    temp.innerText = `${weatherInfo?.main?.temp} °C`;
     windspeed.innerText = `${weatherInfo?.wind?.speed} m/s`;
     humidity.innerText = `${weatherInfo?.main?.humidity}%`;
     cloudiness.innerText = `${weatherInfo?.clouds?.all}%`;
@@ -149,11 +149,11 @@ function renderWeatherInfo(weatherInfo){
 }
 
 function getLocation(){
-    if(navigator.getLocation){
+    if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(showPosition);
     }
     else{
-        // HW show alert for no geolocation support available
+        alert("No location Access");
     }
 }
 
